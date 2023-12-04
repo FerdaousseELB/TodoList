@@ -25,7 +25,13 @@ public class TacheControlleur {
         model.addAttribute("listTaches", pagesTache.getContent());
         model.addAttribute("pages", new int[pagesTache.getTotalPages()]);
         model.addAttribute("currentPage",page);
+        model.addAttribute("titre", kw);
         return "taches";
+    }
+    @GetMapping("/delete")
+    public String delete(Long id){
+        tacheRepository.deleteById(id);
+        return "redirect:/index";
     }
 
 }

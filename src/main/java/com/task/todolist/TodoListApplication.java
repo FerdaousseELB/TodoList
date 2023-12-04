@@ -28,7 +28,7 @@ public class TodoListApplication implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Création des utilisateurs
-        Utilisateur mohamed = new Utilisateur();
+        /*Utilisateur mohamed = new Utilisateur();
         mohamed.setNom("Mohamed");
         mohamed.setEmail("mohamed@example.com");
 
@@ -82,7 +82,7 @@ public class TodoListApplication implements CommandLineRunner {
         // Enregistrement des tâches
         tacheRepository.saveAll(Arrays.asList(tache1, tache2, tache3, tache4));
 
-        System.out.println(tacheRepository.findByUtilisateur(ferdaousse));
+        System.out.println(tacheRepository.findByUtilisateur(ferdaousse));*/
 
     }
 }
