@@ -1,6 +1,7 @@
 package com.task.todolist.web;
 
 import com.task.todolist.entities.Tache;
+import com.task.todolist.enums.StatusTache;
 import com.task.todolist.repository.TacheRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +22,13 @@ public class TacheControlleur {
     public String index(Model model,@RequestParam(name="page", defaultValue = "0") int page,
                                     @RequestParam(name="size", defaultValue = "5") int size,
                                     @RequestParam(name ="titre", defaultValue = "") String titre,
-                                    @RequestParam(name ="nom", defaultValue = "") String nom){
+                                    @RequestParam(name ="nom", defaultValue = "") String nom,
+                                    @RequestParam(name ="status", defaultValue = "") String status){
         Page<Tache> pagesTache;
         if(!nom.isEmpty()){
-            pagesTache= tacheRepository.findByUtilisateurContains(nom,PageRequest.of(page,size));
+            pagesTache= tacheRepository.findByUtilisateurContains("%"+nom+"%",PageRequest.of(page,size));
+        } else if(!status.isEmpty()) {
+            pagesTache = tacheRepository.findByStatuesEquals(StatusTache.valueOf(status), PageRequest.of(page, size));
         } else {
             pagesTache = tacheRepository.findByTitreContains(titre, PageRequest.of(page, size));
         }
@@ -33,6 +37,7 @@ public class TacheControlleur {
         model.addAttribute("currentPage",page);
         model.addAttribute("titre", titre);
         model.addAttribute("nom", nom);
+        model.addAttribute("status", status);
         return "taches";
     }
     @GetMapping("/delete")
