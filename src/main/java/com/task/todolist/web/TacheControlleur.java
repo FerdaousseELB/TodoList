@@ -20,12 +20,19 @@ public class TacheControlleur {
     @GetMapping("/index")
     public String index(Model model,@RequestParam(name="page", defaultValue = "0") int page,
                                     @RequestParam(name="size", defaultValue = "5") int size,
-                                    @RequestParam(name ="titre", defaultValue = "") String kw){
-        Page<Tache> pagesTache= tacheRepository.findByTitreContains(kw,PageRequest.of(page,size));
+                                    @RequestParam(name ="titre", defaultValue = "") String titre,
+                                    @RequestParam(name ="nom", defaultValue = "") String nom){
+        Page<Tache> pagesTache;
+        if(!nom.isEmpty()){
+            pagesTache= tacheRepository.findByUtilisateurContains(nom,PageRequest.of(page,size));
+        } else {
+            pagesTache = tacheRepository.findByTitreContains(titre, PageRequest.of(page, size));
+        }
         model.addAttribute("listTaches", pagesTache.getContent());
         model.addAttribute("pages", new int[pagesTache.getTotalPages()]);
         model.addAttribute("currentPage",page);
-        model.addAttribute("titre", kw);
+        model.addAttribute("titre", titre);
+        model.addAttribute("nom", nom);
         return "taches";
     }
     @GetMapping("/delete")

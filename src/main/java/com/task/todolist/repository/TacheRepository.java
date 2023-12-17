@@ -12,8 +12,11 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface TacheRepository extends JpaRepository<Tache, Long> {
-    List<Tache> findByUtilisateur(Utilisateur ferdaousse);
+    @Query("select t from Tache t where t.utilisateur.nom like :x")
+    Page<Tache> findByUtilisateurContains(@Param("x") String nom, Pageable pageable);
     Page<Tache> findByTitreContains(String titre, Pageable pageable);
-    @Query("select t from Tache t where t.titre like :x")
-    Page<Tache> chercher(@Param("x") String titre, Pageable pageable);
+    /*@Query("select t from Tache t where t.titre like :x")
+    Page<Tache> chercher(@Param("x") String titre, Pageable pageable);*/
+
+
 }
